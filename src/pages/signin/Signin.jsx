@@ -39,6 +39,7 @@ const Signup = () => {
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      API_BASE_URL: process.env.REACT_APP_API_BASE_URL
     });
   };
 
