@@ -1,0 +1,18 @@
+@media (min-width: 0px) {
+    .css-nzinn5-MuiContainer-root {
+        max-width: 500px !important;
+    }
+}
+
+.css-1vfquvw {
+    border: '1px solid #dadce0';
+    border-radius: '10px';
+    padding: '36px 40px 36px';
+}
+
+@media only screen and (max-width: 767px) { 
+    .css-1vfquvw {
+        border: none;
+        padding: 0;
+    }
+}
