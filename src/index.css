@@ -215,3 +215,10 @@ h3 {
 }
 
 .color-primary { color: #1976d2 !important; }
+
+.link {
+   cursor: pointer !important; 
+   text-decoration: none !important; 
+   font-weight: 500 !important; 
+   font-size: 14px !important;
+}

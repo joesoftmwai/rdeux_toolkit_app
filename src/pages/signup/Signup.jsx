@@ -13,8 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './signup.css';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+
+  const  navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -25,12 +28,28 @@ const Signup = () => {
 
   const { name, email, password, password2 } = formData;
 
+  const handleChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
+
   const Copyright = (props) => {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          Your Website
+        <Link color="inherit" href="https://github.com/joesoftmwai">
+          Joesoft
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -40,18 +59,9 @@ const Signup = () => {
   
   const theme = createTheme();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main"  maxWidth="xs">
+      <Container sx={{ mb: 2 }} component="main"  maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -81,6 +91,7 @@ const Signup = () => {
                   id="name"
                   label="Full Name"
                   value={name}
+                  onChange={handleChange}
                   autoFocus
                 />
               </Grid>
@@ -92,6 +103,7 @@ const Signup = () => {
                   label="Email Address"
                   name="email"
                   value={email}
+                  onChange={handleChange}
                   autoComplete="email"
                 />
               </Grid>
@@ -104,6 +116,7 @@ const Signup = () => {
                   type="password"
                   id="password"
                   value={password}
+                  onChange={handleChange}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -115,6 +128,8 @@ const Signup = () => {
                   label="Confirm password"
                   type="password"
                   id="password2"
+                  value={password2}
+                  onChange={handleChange}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -129,20 +144,20 @@ const Signup = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3 }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="flex-end" sx={{ mt: 2 }}>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={() => navigate('/signin')} className='link' variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5}} />
+        <Copyright sx={{ mt: 5, pb: 3}} />
       </Container>
     </ThemeProvider>
   );
