@@ -19,8 +19,10 @@ export const signup = createAsyncThunk(
             const message = (
                 error.response 
                 && error.response.data 
+                && error.response.data.errors.email[0]
                 && error.response.data.message)
                 || (error.message)
+                || error.response.data.errors.email[0]
                 || (error.toString())
             return thunkAPI.rejectWithValue(message);
         }

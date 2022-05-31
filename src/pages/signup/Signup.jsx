@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,21 +14,41 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { toast } from 'react-toastify';
 import './signup.css';
-import { useNavigate } from 'react-router-dom';
+
+// bring in the slices
+import { signup, reset} from '../../redux/auth/authSlice'
+import Spinner from '../../components/spinner/Spinner';
+
 
 const Signup = () => {
 
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isSuccess, isError, message} = useSelector(state => state.auth);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    password2: '',
+    password_confirmation: '',
   })
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password_confirmation } = formData;
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    if (isSuccess && user) {
+      navigate('/');
+    }
+
+    dispatch(reset())
+    
+  }, [user, isSuccess, isError, message, navigate, dispatch])
 
   const handleChange = (e) => {
     setFormData((prevState) => ({
@@ -37,6 +59,17 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (password != password_confirmation) {
+      toast.error('Password do not match.')
+    } else {
+      const user = {
+        name,
+        email,
+        password,
+        password_confirmation,
+      }
+      dispatch(signup(user))
+    }
     const data = new FormData(e.currentTarget);
     console.log({
       email: data.get('email'),
@@ -58,6 +91,10 @@ const Signup = () => {
   }
   
   const theme = createTheme();
+
+  if (isLoading) {
+    return <Spinner></Spinner>
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -124,11 +161,11 @@ const Signup = () => {
                 <TextField
                   required
                   fullWidth
-                  name="password2"
+                  name="password_confirmation"
                   label="Confirm password"
                   type="password"
-                  id="password2"
-                  value={password2}
+                  id="password_confirmation"
+                  value={password_confirmation}
                   onChange={handleChange}
                   autoComplete="new-password"
                 />

@@ -12,7 +12,7 @@
 
 @media only screen and (max-width: 767px) { 
     .css-1vfquvw {
-        border: none;
-        padding: 0;
+        border: none !important;
+        padding: 0 !important;
     }
 }

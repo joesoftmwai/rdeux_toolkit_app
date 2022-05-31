@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL  = '/register';
+const API_URL  = `${process.env.REACT_APP_API_BASE_URL}/register`;
 
 // Sign up User
 const signup = async (user) => {
@@ -8,7 +8,6 @@ const signup = async (user) => {
     if (response.data) {
         console.log('response', response);
     }
-
     return response.data;
 }
 
