@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from './authService';
+import { handleFailure, emailExists } from '../utils'
 
 const initialState = {
     user: null,
@@ -11,23 +12,44 @@ const initialState = {
 
 // Sign up User
 export const signup = createAsyncThunk(
-    `${process.env.REACT_APP_API_BASE_URL}/register`,
+    'auth/signup',
     async (user, thunkAPI) => {
         try {
             return await authService.signup(user)
         } catch (error) {
-            const message = (
-                error.response 
-                && error.response.data 
-                && error.response.data.errors.email[0]
-                && error.response.data.message)
-                || (error.message)
-                || error.response.data.errors.email[0]
-                || (error.toString())
+            const message = emailExists(error) ? emailExists(error) : handleFailure(error);
             return thunkAPI.rejectWithValue(message);
         }
     }
 )
+
+// Sign in User
+export const signin = createAsyncThunk(
+    'auth/signin',
+    async (user, thunkAPI) => {
+        try {
+            return await authService.signin(user)
+        } catch (error) {
+            const message = handleFailure(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
+
+
+// Sign out User
+export const signout = createAsyncThunk(
+    'auth/signout',
+    async (token, thunkAPI) => {
+        try {
+            return await authService.signout(token)
+        } catch (error) {
+            const message = handleFailure(error);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
+
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -60,6 +82,45 @@ export const authSlice = createSlice({
                     state.isError = true
                     state.message = action.payload
                     state.user = null
+                }
+            )
+            .addCase(
+                signin.pending, (state) => {
+                    state.isLoading = true
+                }
+            )
+            .addCase(
+                signin.fulfilled, (state, action) => {
+                    state.isLoading = false
+                    state.isSuccess = true
+                    state.user = action.payload
+                }
+            )
+            .addCase(
+                signin.rejected, (state, action) => {
+                    state.isLoading = false
+                    state.isError = true
+                    state.message = action.payload
+                    state.user = null
+                }
+            )
+            .addCase(
+                signout.pending, (state) => {
+                    state.isLoading = true
+                }
+            )
+            .addCase(
+                signout.fulfilled, (state, action) => {
+                    state.isLoading = false
+                    state.isSuccess = true
+                    state.user = null;
+                }
+            )
+            .addCase(
+                signout.rejected, (state, action) => {
+                    state.isLoading = false
+                    state.isError = true
+                    state.message = action.payload
                 }
             )
     }

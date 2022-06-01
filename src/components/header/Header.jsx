@@ -7,9 +7,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CollectionsBookmark from '@mui/icons-material/CollectionsBookmark';
+import AccountMenu from '../account_menu/AccountMenu';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Header = () => {
   const  navigate = useNavigate();
+
+  const { user } = useSelector(state => state.auth);
 
   return (
     <Box sx={{ flexGrow: 1, mb: 2 }}>
@@ -27,23 +31,31 @@ const Header = () => {
           <Typography sx={{ flexGrow: 1, fontWeight: 800,}}>
             <Link to="/" className='color-primary'> Goal Setter</Link>
           </Typography>
+
+          { !user ? 
+            <>
+              <Button 
+                sx={{ textTransform: 'capitalize', mx:2 }}
+                size="medium" 
+                color='primary'
+                onClick={() => navigate('/signin')}>
+                  Sign in
+              </Button>
+              <Button 
+                sx={{ textTransform: 'capitalize' }} 
+                variant="contained" 
+                size="medium" 
+                color='primary'
+                disableElevation
+                onClick={() => navigate('/signup')}>
+                  Sign up
+              </Button>
+            </> :
+            <AccountMenu user={user} />
+          }
           
-          <Button 
-            sx={{ textTransform: 'capitalize', mx:2 }}
-            size="medium" 
-            color='primary'
-            onClick={() => navigate('/signin')}>
-              Sign in
-          </Button>
-          <Button 
-            sx={{ textTransform: 'capitalize' }} 
-            variant="contained" 
-            size="medium" 
-            color='primary'
-            disableElevation
-            onClick={() => navigate('/signup')}>
-              Sign up
-          </Button>
+          
+        
         </Toolbar>
       </AppBar>
     </Box>

@@ -215,6 +215,7 @@ h3 {
 }
 
 .color-primary { color: #1976d2 !important; }
+.bg-primary { background-color: #1976d2 !important; }
 
 .link {
    cursor: pointer !important; 

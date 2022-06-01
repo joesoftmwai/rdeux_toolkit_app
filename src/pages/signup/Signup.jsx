@@ -59,9 +59,11 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password != password_confirmation) {
+    if (password !== password_confirmation) {
       toast.error('Password do not match.')
-    } else {
+    } else if(password.length < 6) {
+      toast.error('Ensure your password is atleast 6 charachters')
+    } else  {
       const user = {
         name,
         email,
