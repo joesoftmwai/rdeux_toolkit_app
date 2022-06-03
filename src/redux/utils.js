@@ -8,7 +8,7 @@ export const handleFailure = (error) => {
     } else {
         message = error.message || error.toString()
     }
-    return message.toString();
+    return message
 }
 
 

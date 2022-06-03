@@ -1,0 +1,15 @@
+.intro-text {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.intro-banner {
+    margin-right: .75rem;
+    height: 80px;
+    border-radius: 10px;
+}
+
+.task-icon {
+    height: 62px;
+    margin-bottom: .75rem;
+}

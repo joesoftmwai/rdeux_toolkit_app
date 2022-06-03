@@ -50,7 +50,6 @@ export const signout = createAsyncThunk(
     }
 )
 
-
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
