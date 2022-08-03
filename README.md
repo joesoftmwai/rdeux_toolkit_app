@@ -8,7 +8,7 @@ This is a Web app that leverages: .\
     i. Material UI, Material Icons .\
     ii. Recharts - composable charting library built on React components .\
     iii. Redux toolkit - for state management (https://redux-toolkit.js.org/) .\
-    iv. Laravel 8 - for the backend login (https://github.com/joesoftmwai/laravel8-sanctum-RESTapi) 
+    iv. Laravel 8 - for the backend logic (https://github.com/joesoftmwai/laravel8-sanctum-RESTapi) 
 
 ## Project setup 
 
