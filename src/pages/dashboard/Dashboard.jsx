@@ -16,7 +16,6 @@ import { getGoals, reset } from '../../redux/goals/goalSlice';
 
 
 
-
 const Dashboard = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
